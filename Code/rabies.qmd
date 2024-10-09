@@ -33,7 +33,7 @@ Your goals are twofold:
 2.  Create a new column in your dataset called "Percent_pos" and set it equal to the (number of positive samples / number of samples)\*100.
 
 
-*After you have taken care of tasks 1 and 2, you may wish to divide up the work among your group members by assigning different questions to different team members.*
+*After you have taken care of tasks 1 and 2, you may wish to divide up the work among your group members by assigning different questions to different team members. Each team member should work from a different branch on the project and should submit their suggested changes via a pull request.*
 
 3.  In what year was the highest total number of sample submissions received? (Hint: you might want the `sum()` function)
 
