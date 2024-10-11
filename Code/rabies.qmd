@@ -15,17 +15,37 @@ Your goals are twofold:
 
 ## Set things up and read in the data
 
+```{r}
+rm(list=ls())
+library(here)
+library(tidyverse)
+```
+
+
+
 Add the code to set up the workspace
 
 Now read in the data and name it as an object called `rabies`.
+```{r}
+rabies<- read.csv(here("Data", "Rabies_Laboratory_Submissions.csv"))
+```
+
 
 ## Get started
 
 Use a combination of filter, select, slice, arrange, group_by, summarize, mutate or any other functions covered in Chapter 3 of GSWR to answer the following questions about this data set.
 
 1.  After you read in all of the data, create a new data frame called rabies that includes just the first 7 columns (omit latitude, longitude and geocode information) from the original dataset.
+```{r}
+rabies<- rabies |> select(1:7)
+```
+
 
 2.  Create a new column in your dataset called "Percent_pos" and set it equal to (number of positive samples / number of samples)\*100.
+```{r}
+rabies |> summarise(Percent_pos = (Positive.Samples/Number.of.Samples)* 
+```
+
 
 *After you have taken care of tasks 1 and 2, you may wish to divide up the work among your group members by assigning different questions to different team members. **Each team member should work from a different branch on the project and should submit their suggested changes via a pull request.***
 
