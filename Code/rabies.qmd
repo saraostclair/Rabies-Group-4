@@ -27,7 +27,9 @@ Add the code to set up the workspace
 
 Now read in the data and name it as an object called `rabies`.
 ```{r}
+
 rabies<- read.csv(here("Data", "Rabies_Laboratory_Submissions.csv"))
+
 ```
 
 
@@ -37,7 +39,9 @@ Use a combination of filter, select, slice, arrange, group_by, summarize, mutate
 
 1.  After you read in all of the data, create a new data frame called rabies that includes just the first 7 columns (omit latitude, longitude and geocode information) from the original dataset.
 ```{r}
+
 rabies<- rabies |> select(1:7)
+
 ```
 
 
@@ -50,6 +54,12 @@ rabies |> reframe(Percent_pos = (Positive.Samples/Number.of.Samples)* 100) |>
 ```{r}
 rabies<- rabies |> mutate(Percent_pos = Positive.Samples/ Number.of.Samples *100)
 ```
+
+```{r}
+rabies <- rabies |> 
+  mutate(Percent_pos = Positive.Samples / Number.of.Samples * 100)
+```
+
 
 *After you have taken care of tasks 1 and 2, you may wish to divide up the work among your group members by assigning different questions to different team members. **Each team member should work from a different branch on the project and should submit their suggested changes via a pull request.***
 
@@ -80,8 +90,40 @@ rabies |> filter(Number.of.Samples > 4 ) |>
 
 7.  Create a new dataset that includes only data from St. Lawrence County and name it SLC. Next, calculate, by Animal.Classification, the total number of submissions per year, the total number of positive submissions per year, and then the percent positive per year based on those two totals. Save your results in a new data frame called SLC_animals.
 
+```{r}
+SLC <- rabies |> 
+  filter(County.Name == "St. Lawrence")
+
+SLC_animals <- SLC |> 
+  group_by(Animal.Classification) |> 
+  mutate(total_submissions = sum(Number.of.Samples)) |> 
+  mutate(total_positive_submissions = sum(Positive.Samples)) |> 
+  mutate(percent_positive = total_positive_submissions/total_submissions)
+SLC_animals
+```
+
+
 8.  Create a new dataset that includes only data from St. Lawrence County from 2020 to present. Name the dataset `SLC_recent`.
+```{r}
+SLC_recent <- SLC |> 
+  filter(Received.Year >= 2020) 
+```
+
 
 9.  What was the animal type for which the highest percent of submitted samples tested positive by year in your St. Lawrence County dataset? What is the average percent positive by year?
+
+```{r}
+SLC_animals |> 
+  group_by(Animal.Classification) |> 
+  arrange(desc(percent_positive)) |> 
+  ungroup() |> 
+  slice(1)
+
+SLC_animals |> 
+  group_by(Received.Year) |> 
+  summarise(average_percent_positive = mean(percent_positive))
+##Animal type with the highest percent of positive samples is Rodents.
+```
+
 
 When you have finished working on your questions, save your changes and commit them. Working from your branch (and not *main*), push your changes to your repository and then open a Pull Request to have the changes incorporated into your group repository.
