@@ -45,16 +45,7 @@ rabies<- rabies |> select(1:7)
 ```
 
 
-2.  Create a new column in your dataset called "Percent_pos" and set it equal to (number of positive samples / number of samples)\*100.
-```{r}
-rabies |> reframe(Percent_pos = (Positive.Samples/Number.of.Samples)* 100) |>
-  mutate(Percent_pos= Percent_pos)
-```
-
-```{r}
-rabies<- rabies |> mutate(Percent_pos = Positive.Samples/ Number.of.Samples *100)
-```
-
+2.  Create a new column in your dataset called "Percent_pos" and set it equal to (number of 
 ```{r}
 rabies <- rabies |> 
   mutate(Percent_pos = Positive.Samples / Number.of.Samples * 100)
@@ -64,9 +55,22 @@ rabies <- rabies |>
 *After you have taken care of tasks 1 and 2, you may wish to divide up the work among your group members by assigning different questions to different team members. **Each team member should work from a different branch on the project and should submit their suggested changes via a pull request.***
 
 3.  In what year was the highest total number of sample submissions received? (Hint: you might want the `sum()` function)
+```{r}
+    rabies |> group_by(Received.Year) |>
+      summarise(n_submissions = sum(Number.of.Samples)) |>
+      arrange(desc(n_submissions)) |>
+      slice(1)
 
+    ```
 
 4.  In what year and in what county was the highest positive number of samples received?
+```{r}
+rabies |> group_by(Received.Year, County.Name) |>
+      summarise(n_positives = sum(Positive.Samples)) |>
+      arrange(desc(n_positives))  |>
+      ungroup() |>
+      slice(1)
+```
 
 
 5.  How many rows of data are there that include submissions from bats for which the samples were positive for rabies? For which the samples were not positive for rabies?
@@ -127,3 +131,11 @@ SLC_animals |>
 
 
 When you have finished working on your questions, save your changes and commit them. Working from your branch (and not *main*), push your changes to your repository and then open a Pull Request to have the changes incorporated into your group repository.
+
+
+
+## Plots 
+```{r}
+rabies |> group_by(Received.Year)
+```
+
